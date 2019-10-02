@@ -93,8 +93,19 @@ class Router implements IF_UNIT
 		//	...
 		$app_root = RootPath()['app'];
 
+		//	Separate of URL Query.
+		if( $pos   = strpos($_SERVER['REQUEST_URI'], '?') ){
+			$uri   = substr($_SERVER['REQUEST_URI'], 0, $pos);
+			/*
+			 $query = substr($_SERVER['REQUEST_URI'], $pos +1);
+			 var_dump($pos, $uri, $query);
+			 */
+		}else{
+			$uri   = $_SERVER['REQUEST_URI'];
+		};
+
 		//	Generate real full path.
-		$full_path = $_SERVER['DOCUMENT_ROOT'].$_SERVER['DOCUMENT_URI'];
+		$full_path = $_SERVER['DOCUMENT_ROOT'].$uri;
 
 		/*
 		$full_path = $_SERVER['DOCUMENT_ROOT'].$_SERVER['REQUEST_URI'];
