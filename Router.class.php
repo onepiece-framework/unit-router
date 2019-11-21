@@ -21,9 +21,9 @@ namespace OP\UNIT;
  */
 use OP\OP_CORE;
 use OP\OP_UNIT;
-use OP\OP_DEBUG;
 use OP\IF_UNIT;
 use OP\Env;
+use OP\Cookie;
 use function OP\RootPath;
 use function OP\ConvertPath;
 
@@ -42,7 +42,7 @@ class Router implements IF_UNIT
 	/** trait.
 	 *
 	 */
-	use OP_CORE, OP_UNIT, OP_DEBUG;
+	use OP_CORE, OP_UNIT;
 
 	/** Use for route table's associative array key name.
 	 *
@@ -61,6 +61,32 @@ class Router implements IF_UNIT
 	 * @var array
 	 */
 	private $_route;
+
+	/** Routing G11n.
+	 *
+	 * @param  &array  $dirs
+	 */
+	private function _G11n(&$dirs)
+	{
+		//	app:/webpack/
+		if( $dirs[0] === 'webpack' ){
+			return;
+		};
+
+		//	...
+		if( $dirs[0] === 'webpack' ){
+			return;
+		};
+
+		//	Check if has language code.
+		if( strpos($dirs[0], ':') ){
+			//	...
+			$this->_route['locale'] = array_shift($dirs);
+
+			//	...
+			Cookie::Set('locale', $this->_route['locale']);
+		};
+	}
 
 	/** Init route table.
 	 *
@@ -93,45 +119,21 @@ class Router implements IF_UNIT
 		//	...
 		$app_root = RootPath()['app'];
 
+		/*
 		//	Separate of URL Query.
 		if( $pos   = strpos($_SERVER['REQUEST_URI'], '?') ){
 			$uri   = substr($_SERVER['REQUEST_URI'], 0, $pos);
-			/*
-			 $query = substr($_SERVER['REQUEST_URI'], $pos +1);
-			 var_dump($pos, $uri, $query);
-			 */
+		//	$query = substr($_SERVER['REQUEST_URI'], $pos +1);
 		}else{
 			$uri   = $_SERVER['REQUEST_URI'];
 		};
 
 		//	Generate real full path.
 		$full_path = $_SERVER['DOCUMENT_ROOT'].$uri;
-
-		/*
-		$full_path = $_SERVER['DOCUMENT_ROOT'].$_SERVER['REQUEST_URI'];
-
-		//	Separate url query.
-		if( $pos = strpos($full_path, '?') ){
-			//	Separate url query.
-			$full_path = substr($full_path, 0, $pos);
-		}
 		*/
 
-		/*
-		//	HTML path through.
-		if( $config['html-path-through'] ?? null ){
-			//	Get extension.
-			$extension = substr($full_path, strrpos($full_path, '.')+1);
-
-			//	In case of html.
-			if( $extension === 'html' ){
-				if( file_exists($full_path) ){
-					$this->_route[self::_END_POINT_] = $full_path;
-					return;
-				}
-			}
-		}
-		*/
+		//	Generate real full path. Removed URL Query. This code is smart logic technique.
+		$full_path = rtrim($_SERVER['DOCUMENT_ROOT'],'/') . explode('?', $_SERVER['REQUEST_URI'])[0];
 
 		//	...
 		if( file_exists($full_path) ){
@@ -172,35 +174,9 @@ class Router implements IF_UNIT
 		//	/foo/bar --> ['foo','bar']
 		$dirs = explode('/', $uri);
 
-		//	...
-		$this->__DebugSet(__FUNCTION__, true);
-		$this->__DebugSet(__FUNCTION__, $dirs);
-
 		//	Globalization.
-		if( ($g11n = $config['g11n'] ?? null) and $g11n['execute'] ){
-			//	...
-			if( $dirs[0] == 'webpack' ){
-				//	...
-				$has_locale = true;
-			}else
-			if( $has_locale = strpos($dirs[0], ':') ){
-				//	Has language code.
-				$this->_route['g11n'] = strtolower(array_shift($dirs));
-			};
-
-			//	...
-			if(!$has_locale ){
-				//	...
-				if( $pos = strpos($_SERVER['REQUEST_URI'],'?') ){
-					$que = substr($_SERVER['REQUEST_URI'], $pos);
-				};
-
-				//	...
-				$url = "app:/{$g11n['default']}/".join('/',$dirs) . ($que ?? null);
-
-				//	...
-				$this->Unit('Http')->Location($url, 307);
-			};
+		if( $config['g11n'] ?? null ){
+			$this->_G11n($dirs);
 		};
 
 		//	...
@@ -249,6 +225,16 @@ class Router implements IF_UNIT
 		return $this->_route[self::_ARGS_];
 	}
 
+	/** Locale
+	 *
+	 * @created  2019-04-19
+	 * @return   string      $locale
+	 */
+	function Locale()
+	{
+		return $this->_route['locale'] ?? null;
+	}
+
 	/** g11n is Globalization.
 	 *
 	 *  Globalization is not Multilingalization.
@@ -264,8 +250,10 @@ class Router implements IF_UNIT
 	 * @creation 2019-03-19
 	 * @return   array
 	 */
+	/*
 	function G11n()
 	{
 		return $this->_route['g11n'] ?? null;
 	}
+	*/
 }
