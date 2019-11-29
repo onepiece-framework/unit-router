@@ -9,4 +9,5 @@
  * @copyright Tomoaki Nagahara All right reserved.
  */
 //	...
+include(__DIR__.'/ROUTER.trait.php');
 include(__DIR__.'/Router.class.php');
