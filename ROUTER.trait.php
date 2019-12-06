@@ -97,10 +97,10 @@ trait UNIT_ROUTER
 		$uri = str_replace($app_root, '', $full_path);
 
 		//	Remove slash from tail: api/foo/bar/ --> api/foo/bar
-		$uri  = rtrim($uri, '/');
+		$uri  = rtrim($uri, DIRECTORY_SEPARATOR);
 
-		//	/foo/bar --> ['foo','bar']
-		$dirs = explode('/', $uri);
+		//	'' --> [], /foo/bar --> ['foo','bar']
+		$dirs = explode(DIRECTORY_SEPARATOR, $uri);
 
 		//	...
 		$dir = null;
