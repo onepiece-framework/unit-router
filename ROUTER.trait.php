@@ -71,7 +71,7 @@ trait UNIT_ROUTER
 		$this->_route[_END_POINT_] = null;
 
 		//	...
-		$app_root = RootPath()['app'];
+		$app_root = RootPath('app');
 
 		//	Separate of URL Query.
 		if( $pos   = strpos($_SERVER['REQUEST_URI'], '?') ){
