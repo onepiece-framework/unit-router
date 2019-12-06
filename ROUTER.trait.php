@@ -86,41 +86,11 @@ trait UNIT_ROUTER
 		//	...
 		if( file_exists($full_path) and !is_dir($full_path) ){
 
-			//	html-path-through and
+			//	html-pass-through and
 			$this->_route[_END_POINT_] = $full_path;
+
+			//	...
 			return;
-
-			/*
-			//	...
-			$config = Env::Get('router');
-
-			//	Get extension.
-			$extension = substr($full_path, strrpos($full_path, '.')+1);
-
-			//	...
-			switch( $extension ){
-				case 'html':
-					//	HTML path through.
-					$io = $config['html-path-through'] ?? true;
-					break;
-
-				case 'js':
-					$io = true;
-					Env::Mime('text/javascript');
-					break;
-
-				case 'css':
-					$io = true;
-					Env::Mime('text/css');
-					break;
-			};
-
-			//	...
-			if( $io ?? null ){
-				$this->_route[_END_POINT_] = $full_path;
-				return;
-			};
-			*/
 		};
 
 		//	Remove application root: /www/htdocs/api/foo/bar/ --> api/foo/bar/
