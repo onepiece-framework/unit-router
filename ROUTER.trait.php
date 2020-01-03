@@ -65,6 +65,17 @@ trait UNIT_ROUTER
 	 */
 	private function __ROUTER_INIT()
 	{
+		/** Separated to single function.
+		 *
+		 * @created   2019-01-03
+		 */
+		require_once('function/calculator.php');
+		$this->_route = UNIT\ROUTER\Calculate();
+
+		/** Separated to single function.
+		 *
+		 * @moved     2019-01-03   Separate to Calculate() in calculator.php
+
 		//	...
 		$this->_route = [];
 		$this->_route[_ARGS_] = [];
@@ -126,6 +137,7 @@ trait UNIT_ROUTER
 
 			//	...
 		}while( false !== $dir = array_pop($dirs) );
+		*/
 	}
 
 	/** EndPoint
