@@ -54,7 +54,7 @@ function Calculate(array $condition=[]):array
 
 	//	html-pass-through
 	if( file_exists($full_not_real_path) and !is_dir($full_not_real_path) ){
-		return [\OP\_END_POINT_ => $full_not_real_path, \OP\_ARGS_=>[]];
+		return ['end-point' => $full_not_real_path, 'args' => []];
 	};
 
 	//	Generate path of under of the app root.
@@ -96,5 +96,5 @@ function Calculate(array $condition=[]):array
 	$args = \OP\Encode($args);
 
 	//	Result.
-	return [\OP\_END_POINT_ => $end_point, \OP\_ARGS_=>$args];
+	return ['end-point' => $end_point, 'args' => $args];
 }
