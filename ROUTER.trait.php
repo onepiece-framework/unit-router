@@ -20,6 +20,7 @@ namespace OP;
 /** Use for route table's associative array key name.
  *
  * @created   2019-11-21
+ * @deprecated
  * @var       string
  */
 const _ARGS_ = 'args';
@@ -27,6 +28,7 @@ const _ARGS_ = 'args';
 /** Use for route table's associative array key name.
  *
  * @created   2019-11-21
+ * @deprecated
  * @var       string
  */
 const _END_POINT_ = 'end-point';
