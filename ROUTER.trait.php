@@ -17,22 +17,6 @@
  */
 namespace OP;
 
-/** Use for route table's associative array key name.
- *
- * @created   2019-11-21
- * @deprecated
- * @var       string
- */
-const _ARGS_ = 'args';
-
-/** Use for route table's associative array key name.
- *
- * @created   2019-11-21
- * @deprecated
- * @var       string
- */
-const _END_POINT_ = 'end-point';
-
 /** Router
  *
  * @created   2015-01-30  Born at NewWorld.
@@ -152,7 +136,7 @@ trait UNIT_ROUTER
 		if(!$this->_route ){
 			$this->__ROUTER_INIT();
 		}
-		return $this->_route[_END_POINT_];
+		return $this->_route['end-point'];
 	}
 
 	/** Args
@@ -165,6 +149,6 @@ trait UNIT_ROUTER
 		if(!$this->_route ){
 			$this->__ROUTER_INIT();
 		}
-		return $this->_route[_ARGS_];
+		return $this->_route['args'];
 	}
 }

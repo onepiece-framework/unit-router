@@ -36,7 +36,7 @@ use function OP\RootPath;
  *
  * @created   2020-01-03
  * @param     array        ['root','url','file_name','is_separate_query']
- * @return    array        [\OP\_END_POINT_,\OP\_ARGS_]
+ * @return    array        ['end-point','args']
  */
 function Calculate(array $condition=[]):array
 {
